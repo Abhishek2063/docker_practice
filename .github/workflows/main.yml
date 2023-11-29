@@ -23,7 +23,7 @@ jobs:
       run: docker build -t expanse-backend .
 
     - name: Push Docker image to Docker Hub
-      run: docker push ${{ secrets.DOCKER_USERNAME }}/expanse-tracking
+      run: docker push expanse-tracking
 
     - name: Deploy to production
       run: docker run -p 8080:8080 -e NODE_ENV=production -d expanse-backend
