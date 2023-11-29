@@ -1,0 +1,32 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Build Docker image
+      run: docker build -t expanse-backend .
+
+    - name: Push Docker image to registry
+      run: |
+        echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+        docker push expanse-backend
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Deploy to production
+      run: |
+        ssh user@your-server 'docker pull expanse-backend && docker-compose up -d'
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
