@@ -20,7 +20,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           
     - name: Build Docker image
-      run: docker build -t expanse-backend .
+      run: docker build -t expanse-backend:tagname .
 
   deploy:
     runs-on: ubuntu-latest
